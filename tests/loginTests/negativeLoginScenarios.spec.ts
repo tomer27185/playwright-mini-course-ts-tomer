@@ -17,7 +17,7 @@ test.describe('Negative Login Scenarios', () => {
   });
 
   test('Login with incorrect username', async ({ page }) => {
-    await loginPage.loginToApplication(process.env.INCORRECT_USER, process.env.CORRECT_PASSWORD);
+    await loginPage.loginToApplication('incorrect_user', process.env.CORRECT_PASSWORD);
     await loginPage.validateErrorMessage(ErrorMessages.LOGIN_WITH_INCORRECT_CREDENTIALS);
     await loginPage.validatePageUrl(ApplicationURL.BASE_URL);
   });
