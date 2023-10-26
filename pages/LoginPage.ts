@@ -1,19 +1,24 @@
 import { Locator, Page, expect } from '@playwright/test';
 import ApplicationURL from '../helpers/ApplicationURL';
 import UserCredentials from '../helpers/UserCredentials';
+import { ErrorMessages } from '../helpers/ErrorMessages';
+import { BasePage } from './BasePage';
 
-export default class LoginPage {
+export default class LoginPage extends BasePage {
   protected page: Page;
 
-  usernameField: Locator;
-  passwordField: Locator;
-  loginButton: Locator;
+  private usernameFieldElement: Locator;
+  private passwordFieldElement: Locator;
+  private loginButtonElement: Locator;
+  private errorMessageElement: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
-    this.usernameField = this.page.locator('[data-test="username"]');
-    this.passwordField = this.page.locator('[data-test="password"]');
-    this.loginButton = this.page.locator('[data-test="login-button"]');
+    this.usernameFieldElement = this.page.locator('[data-test="username"]');
+    this.passwordFieldElement = this.page.locator('[data-test="password"]');
+    this.loginButtonElement = this.page.locator('[data-test="login-button"]');
+    this.errorMessageElement = this.page.locator('[data-test="error"]');
   }
 
   public async loginToApplication(
@@ -22,14 +27,13 @@ export default class LoginPage {
     url = ApplicationURL.BASE_URL
   ) {
     await this.page.goto(url);
-    await this.validatePageUrl(ApplicationURL.BASE_URL)
-    await this.usernameField.fill(username);
-    await this.passwordField.fill(password);
-    await this.loginButton.click();
-    await this.validatePageUrl(`${ApplicationURL.BASE_URL}inventory.html`)
+    await this.validatePageUrl(ApplicationURL.BASE_URL);
+    await this.usernameFieldElement.fill(username);
+    await this.passwordFieldElement.fill(password);
+    await this.loginButtonElement.click();
   }
 
-  public async validatePageUrl(url: string){
-          await expect(this.page).toHaveURL(url);
+  public async validateErrorMessage(errorMessage: ErrorMessages) {
+    await this.validateElementText(this.errorMessageElement, errorMessage.valueOf());
   }
 }
