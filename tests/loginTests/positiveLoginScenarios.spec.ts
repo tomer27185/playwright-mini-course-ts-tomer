@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import LoginPage from '../../pages/LoginPage';
-import { ErrorMessages } from '../../helpers/ErrorMessages';
 import ApplicationURL from '../../helpers/ApplicationURL';
 
 test.describe('Negative Login Scenarios', () => {

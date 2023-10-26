@@ -29,7 +29,7 @@ export default class LoginPage extends BasePage {
     await this.validatePageUrl(ApplicationURL.BASE_URL);
     await this.usernameFieldElement.fill(username);
     await this.passwordFieldElement.fill(password);
-    await this.loginButtonElement.click();
+    await this.clickElement(this.loginButtonElement);
   }
 
   public async validateErrorMessage(errorMessage: ErrorMessages) {

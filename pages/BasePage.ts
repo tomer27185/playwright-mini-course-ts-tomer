@@ -13,9 +13,19 @@ export abstract class BasePage {
     });
   }
 
-  public async validateElementText(element: Locator, expectedText: string) {
+  protected async validateElementText(element: Locator, expectedText: string) {
     await test.step(`Validate that a correct element text is: ${expectedText}`, async () => {
-          await expect(element).toContainText(expectedText);
+      await expect(element).toContainText(expectedText);
     });
+  }
+
+  protected async clickElement(element: Locator) {
+    await test.step(`Click the element: ${element}`, async () => {
+      await element.click();
+    });
+  }
+
+  public async validateTitle(title: string) {
+    await this.validateElementText(this.page.locator('.title'), title);
   }
 }
